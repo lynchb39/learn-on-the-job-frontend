@@ -1,321 +1,304 @@
-$(function () {
+(function($) {
 
-    "use strict";
+  "use strict";
 
-    //===== Prealoder
+  /* Page Loader active
+  ========================================================*/
+  $('#preloader').fadeOut();
 
-    $(window).on('load', function (event) {
-        $('.preloader').delay(500).fadeOut(500);
+  /* Testimonials Carousel
+  ========================================================*/
+  var owl = $("#client-testimonial");
+  owl.owlCarousel({
+    navigation: true,
+    pagination: false,
+    slideSpeed: 1000,
+    stopOnHover: true,
+    autoPlay: true,
+    items: 1,
+    animateIn: 'fadeIn',
+    animateOut: 'fadeOut',
+    addClassActive: true,
+    itemsDesktop : [1199,1],
+    itemsDesktopSmall : [980,1],
+    itemsTablet: [768,1],
+    itemsTabletSmall: [480,1],
+    itemsMobile : [479,1],
+  });
+  $('#client-testimonial').find('.owl-prev').html('<i class="lni-chevron-left"></i>');
+  $('#client-testimonial').find('.owl-next').html('<i class="lni-chevron-right"></i>');
+
+
+  /* showcase Slider
+  =============================*/
+  var owl = $(".showcase-slider");
+  owl.owlCarousel({
+    navigation: false,
+    pagination: true,
+    slideSpeed: 1000,
+    margin:10,
+    stopOnHover: true,
+    autoPlay: true,
+    items: 5,
+    itemsDesktopSmall: [1024, 3],
+    itemsTablet: [600, 1],
+    itemsMobile: [479, 1]
+  });
+
+
+
+  /*
+   Sticky Nav
+   ========================================================================== */
+  $(window).on('scroll', function() {
+    if ($(window).scrollTop() > 100) {
+      $('.header-top-area').addClass('menu-bg');
+    } else {
+      $('.header-top-area').removeClass('menu-bg');
+    }
+  });
+
+  /*
+ VIDEO POP-UP
+ ========================================================================== */
+  $('.video-popup').magnificPopup({
+    disableOn: 700,
+    type: 'iframe',
+    mainClass: 'mfp-fade',
+    removalDelay: 160,
+    preloader: false,
+    fixedContentPos: false,
+  });
+
+  /*
+   Back Top Link
+   ========================================================================== */
+  var offset = 200;
+  var duration = 500;
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > offset) {
+      $('.back-to-top').fadeIn(400);
+    } else {
+      $('.back-to-top').fadeOut(400);
+    }
+  });
+
+  $('.back-to-top').on('click',function(event) {
+    event.preventDefault();
+    $('html, body').animate({
+      scrollTop: 0
+    }, 600);
+    return false;
+  })
+
+  /*
+   One Page Navigation
+   ========================================================================== */
+
+
+  $(window).on('load', function() {
+
+    $('body').scrollspy({
+      target: '.navbar-collapse',
+      offset: 195
     });
 
+    $(window).on('scroll', function() {
+      if ($(window).scrollTop() > 100) {
+        $('.fixed-top').addClass('menu-bg');
+      } else {
+        $('.fixed-top').removeClass('menu-bg');
+      }
+    });
 
-    //===== Sticky
+  });
 
-    $(window).on('scroll', function (event) {
-        var scroll = $(window).scrollTop();
-        if (scroll < 20) {
-            $(".navbar-area").removeClass("sticky");
-            $(".navbar .navbar-brand img").attr("src", "assets/images/logo.svg");
-        } else {
-            $(".navbar-area").addClass("sticky");
-            $(".navbar .navbar-brand img").attr("src", "assets/images/logo-2.svg");
+  /* Auto Close Responsive Navbar on Click
+  ========================================================*/
+  function close_toggle() {
+    if ($(window).width() <= 768) {
+      $('.navbar-collapse a').on('click', function () {
+        $('.navbar-collapse').collapse('hide');
+      });
+    }
+    else {
+      $('.navbar .navbar-inverse a').off('click');
+    }
+  }
+  close_toggle();
+  $(window).resize(close_toggle);
+
+  /* Nivo Lightbox
+  ========================================================*/
+  $('.lightbox').nivoLightbox({
+    effect: 'fadeScale',
+    keyboardNav: true,
+  });
+
+
+  //===== Slick
+
+  $('.testimonial-active').slick({
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    speed: 800,
+    arrows: false,
+    dots: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 3,
         }
-    });
-
-
-
-    //===== Section Menu Active
-
-    var scrollLink = $('.page-scroll');
-    // Active link switching
-    $(window).scroll(function () {
-        var scrollbarLocation = $(this).scrollTop();
-
-        scrollLink.each(function () {
-
-            var sectionOffset = $(this.hash).offset().top - 73;
-
-            if (sectionOffset <= scrollbarLocation) {
-                $(this).parent().addClass('active');
-                $(this).parent().siblings().removeClass('active');
-            }
-        });
-    });
-
-
-    //===== close navbar-collapse when a  clicked
-
-    $(".navbar-nav a").on('click', function () {
-        $(".navbar-collapse").removeClass("show");
-    });
-
-    $(".navbar-toggler").on('click', function () {
-        $(this).toggleClass("active");
-    });
-
-    $(".navbar-nav a").on('click', function () {
-        $(".navbar-toggler").removeClass('active');
-    });    
-    
-
-
-
-
-    //===== Back to top
-
-    // Show or hide the sticky footer button
-    $(window).on('scroll', function (event) {
-        if ($(this).scrollTop() > 600) {
-            $('.back-to-top').fadeIn(200)
-        } else {
-            $('.back-to-top').fadeOut(200)
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
         }
-    });
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        }
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+        }
+      }
+    ]
+  });
 
 
-    //Animate the scroll to yop
-    $('.back-to-top').on('click', function (event) {
-        event.preventDefault();
+  //===== Slick
 
-        $('html, body').animate({
-            scrollTop: 0,
-        }, 1500);
-    });
+  $('.testimonial-active-2').slick({
+    infinite: true,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    speed: 800,
+    arrows: false,
+    dots: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
+        }
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 1,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        }
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+        }
+      }
+    ]
+  });
 
 
-    //=====  WOW active
+  //===== Slick
 
-    new WOW().init();
+  $('.client-active').slick({
+    infinite: true,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    speed: 800,
+    arrows: false,
+    dots: false,
+    autoplay: true,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 6,
+        }
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 5,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+        }
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 2,
+          arrows: false,
+        }
+      }
+    ]
+  });
 
 
-    //=====  particles
+  //===== Slick
 
-
-    if (document.getElementById("particles-1")) particlesJS("particles-1", {
-        "particles": {
-            "number": {
-                "value": 40,
-                "density": {
-                    "enable": !0,
-                    "value_area": 4000
-                }
-            },
-            "color": {
-                "value": ["#FFFFFF", "#FFFFFF", "#FFFFFF"]
-            },
-            "shape": {
-                "type": "circle",
-                "stroke": {
-                    "width": 0,
-                    "color": "#fff"
-                },
-                "polygon": {
-                    "nb_sides": 5
-                },
-                "image": {
-                    "src": "img/github.svg",
-                    "width": 33,
-                    "height": 33
-                }
-            },
-            "opacity": {
-                "value": 0.15,
-                "random": !0,
-                "anim": {
-                    "enable": !0,
-                    "speed": 0.2,
-                    "opacity_min": 0.15,
-                    "sync": !1
-                }
-            },
-            "size": {
-                "value": 50,
-                "random": !0,
-                "anim": {
-                    "enable": !0,
-                    "speed": 2,
-                    "size_min": 5,
-                    "sync": !1
-                }
-            },
-            "line_linked": {
-                "enable": !1,
-                "distance": 150,
-                "color": "#ffffff",
-                "opacity": 0.4,
-                "width": 1
-            },
-            "move": {
-                "enable": !0,
-                "speed": 1,
-                "direction": "top",
-                "random": !0,
-                "straight": !1,
-                "out_mode": "out",
-                "bounce": !1,
-                "attract": {
-                    "enable": !1,
-                    "rotateX": 600,
-                    "rotateY": 600
-                }
-            }
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-                "onhover": {
-                    "enable": !1,
-                    "mode": "bubble"
-                },
-                "onclick": {
-                    "enable": !1,
-                    "mode": "repulse"
-                },
-                "resize": !0
-            },
-            "modes": {
-                "grab": {
-                    "distance": 400,
-                    "line_linked": {
-                        "opacity": 1,
-                    }
-                },
-                "bubble": {
-                    "distance": 250,
-                    "size": 0,
-                    "duration": 2,
-                    "opacity": 0,
-                    "speed": 3
-                },
-                "repulse": {
-                    "distance": 400,
-                    "duration": 0.4
-                },
-                "push": {
-                    "particles_nb": 4
-                },
-                "remove": {
-                    "particles_nb": 2
-                }
-            }
-        },
-        "retina_detect": !0
-    });
-
-    if (document.getElementById("particles-2")) particlesJS("particles-2", {
-        "particles": {
-            "number": {
-                "value": 40,
-                "density": {
-                    "enable": !0,
-                    "value_area": 4000
-                }
-            },
-            "color": {
-                "value": ["#FFFFFF", "#FFFFFF", "#FFFFFF"]
-            },
-            "shape": {
-                "type": "circle",
-                "stroke": {
-                    "width": 0,
-                    "color": "#fff"
-                },
-                "polygon": {
-                    "nb_sides": 5
-                },
-                "image": {
-                    "src": "img/github.svg",
-                    "width": 33,
-                    "height": 33
-                }
-            },
-            "opacity": {
-                "value": 0.15,
-                "random": !0,
-                "anim": {
-                    "enable": !0,
-                    "speed": 0.2,
-                    "opacity_min": 0.15,
-                    "sync": !1
-                }
-            },
-            "size": {
-                "value": 50,
-                "random": !0,
-                "anim": {
-                    "enable": !0,
-                    "speed": 2,
-                    "size_min": 5,
-                    "sync": !1
-                }
-            },
-            "line_linked": {
-                "enable": !1,
-                "distance": 150,
-                "color": "#ffffff",
-                "opacity": 0.4,
-                "width": 1
-            },
-            "move": {
-                "enable": !0,
-                "speed": 1,
-                "direction": "top",
-                "random": !0,
-                "straight": !1,
-                "out_mode": "out",
-                "bounce": !1,
-                "attract": {
-                    "enable": !1,
-                    "rotateX": 600,
-                    "rotateY": 600
-                }
-            }
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-                "onhover": {
-                    "enable": !1,
-                    "mode": "bubble"
-                },
-                "onclick": {
-                    "enable": !1,
-                    "mode": "repulse"
-                },
-                "resize": !0
-            },
-            "modes": {
-                "grab": {
-                    "distance": 400,
-                    "line_linked": {
-                        "opacity": 1,
-                    }
-                },
-                "bubble": {
-                    "distance": 250,
-                    "size": 0,
-                    "duration": 2,
-                    "opacity": 0,
-                    "speed": 3
-                },
-                "repulse": {
-                    "distance": 400,
-                    "duration": 0.4
-                },
-                "push": {
-                    "particles_nb": 4
-                },
-                "remove": {
-                    "particles_nb": 2
-                }
-            }
-        },
-        "retina_detect": !0
-    });
+  $('.testimonial-active-4').slick({
+    infinite: true,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    speed: 800,
+    arrows: false,
+    dots: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
+        }
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        }
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+        }
+      }
+    ]
+  });
 
 
 
+}(jQuery));
 
-
-
-});
